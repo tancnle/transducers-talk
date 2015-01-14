@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>transducers-js</title>
+    <link rel="stylesheet" type="text/css" href="build/build.css">
+  </head>
+  <body>
+    <article>
+      <section>
+        <h1>transducers-js</h1>
+        <h2>@tancnle</h2>
+      </section>
+      <section>
+        <h1>What is a transducer?</h1>
+      </section>
+      <section>
+        <h1>A transducer is a device that converts a signal in one form of energy to another form of energy.</h1>
+      </section>
+      <section>
+        <h1>The end.</h1>
+      </section>
+      <section>
+        <h1><img width="50%" height="50%" src="images/transducer-search.png"></h1>
+      </section>
+      <section>
+        <h1 class="bullet">Transducers are composable way to build algorithmic transformations.</h1>
+        <ul>
+          <li>Wat!</li>
+        </ul>
+      </section>
+      <section>
+        <h1><span class="emphatic">Trans</span><span>form +</span><span> Re</span><span class="emphatic">duce</span></h1>
+      </section>
+      <section>
+        <h1>Algorithmic transformations</h1>
+      </section>
+      <section>
+        <h1>Array/collection operations like<span class="emphatic"> map</span><span> or</span><span class="emphatic"> filter,</span><span> can be expressed in</span><span class="emphatic"> reduce</span></h1>
+      </section>
+      <section>
+        <h1>Map</h1>
+        <pre><code class="language-javascript">[1, 2, 3, 4].map(function (input) {
+  return input + 1;
+}) // -> [2, 3, 4, 5]
+
+[1, 2, 3, 4].reduce(function (result, input) {
+  return concat(result, input + 1);
+}, []) // -> [2, 3, 4, 5]
+
+function concat(a, b) { return a.concat([b]); }
+</code></pre>
+      </section>
+      <section>
+        <h1>Functional way</h1>
+        <pre><code class="language-javascript">function map(transform, collection) {
+  return collection.reduce(function (result, input) {
+    return concat(result, transform(input));
+  }, []);
+}
+
+map(function(x) { return x + 1; }, [1, 2, 3, 4]);
+// -> [2, 3, 4, 5]
+</code></pre>
+      </section>
+      <section>
+        <h1></h1>
+        <pre><code class="language-javascript">function filter(predicate, collection) {
+  return collection.reduce(function (result, input) {
+    return ( predicate(input) ?
+             concat(result, input) :
+             result );
+  }, [])
+}
+</code></pre>
+      </section>
+      <section>
+        <h1>Filter transformer</h1>
+        <pre><code class="language-javascript">var greaterThanTwo = function (x) {
+  return x > 2;
+};
+
+filter(greaterThanTwo, [1 ,2 ,3, 4]);
+// -> [3, 4]
+</code></pre>
+      </section>
+      <section>
+        <h1>Composable</h1>
+      </section>
+      <section>
+        <h1>Fork-join model</h1>
+        <h1><img width="50%" height="50%" src="images/js_fork_join.png"></h1>
+      </section>
+      <section>
+        <h1>Transducer reduce</h1>
+        <h1><img width="50%" height="50%" src="images/transducers-reduce.png"></h1>
+      </section>
+      <section>
+        <h1>Sequential</h1>
+        <pre><code class="language-javascript">var incrementAndFilter = compose(
+  filter.bind(null, greaterThanTwo),
+  map.bind(null, inc)
+);
+
+incrementAndFilter([1, 2, 3, 4]);
+// -> [3, 4]
+</code></pre>
+      </section>
+      <section>
+        <h1 class="bullet">Reducing functions</h1>
+        <ul>
+          <pre><code class="language-javascript">(something, input) -> something
+</code></pre>
+        </ul>
+      </section>
+      <section>
+        <h1>Map</h1>
+        <pre><code class="language-javascript">function map(transform, collection) {
+  return collection.reduce(
+    // Reducing function!
+    function (result, input) {
+      return concat(result, transform(input));
+    },
+    []
+  );
+}
+</code></pre>
+      </section>
+      <section>
+        <pre><code class="language-javascript">function mapper (transform) {
+  return function (result, input) {
+    return concat(result, transform(input));
+  };
+};
+
+[1, 2, 3, 4].reduce(mapper(inc), []);
+// -> [2, 3, 4, 5]
+</code></pre>
+      </section>
+      <section>
+        <h1>Can we do better?</h1>
+        <h2>Step function (concat) still bound to array</h2>
+        <pre><code class="language-javascript">function mapper (transform) {
+  return function (combine) {
+    return function (result, input) {
+      return combine(result, transform(input));
+    };
+  };
+};
+</code></pre>
+      </section>
+      <section>
+        <pre><code class="language-javascript">[1, 2, 3, 4].reduce(mapper(inc)(concat), []);
+
+// replace concat with another mapper for
+// extra craziness
+[1, 2, 3, 4].reduce(
+  mapper(inc)(
+    mapper(multiplyByTwo)(concat)
+  ),
+  []
+);
+</code></pre>
+      </section>
+      <section>
+        <h2>I can see some composing opportunity</h2>
+        <pre><code class="language-javascript">[1, 2, 3, 4].reduce(
+  filterer(greaterThanTwo)(
+    mapper(multiplyByTwo)(concat)
+  ),
+  []
+);
+</code></pre>
+      </section>
+      <section>
+        <h2>Lets compose these... transducers</h2>
+        <pre><code class="language-javascript">compose(x, y, z)(val) -> x(y(z(val)))
+
+[1, 2, 3, 4].reduce(
+  compose(
+    filterer(greaterThanTwo),
+    mapper(multiplyByTwo)
+  )(concat),
+  []
+);
+</code></pre>
+      </section>
+      <section>
+        <h2>Functional touch</h2>
+        <pre><code class="language-javascript">function transduce(xform, f, init, coll) {
+  return coll.reduce(xform(f), init);
+}
+
+transduce(
+  compose(
+    filterer(greaterThanTwo),
+    mapper(multiplyByTwo)
+  ),
+  concat,
+  [],
+  [1, 2, 3, 4]
+);
+</code></pre>
+      </section>
+      <section>
+        <h1><img width="50%" height="50%" src="images/dance.gif"></h1>
+      </section>
+      <section>
+        <h1>Input agnostic</h1>
+        <ul>
+          <li>Enumerables/iterables</li>
+          <li>Observables</li>
+          <li> Streams</li>
+          <li>Channels (still experimenting)</li>
+        </ul>
+      </section>
+      <section>
+        <h1>Goal</h1>
+        <pre><code class="language-bash">+-----------+-----+---------+----------+-------------+-------+
+|           | Seq | Streams | Channels | Observables | Cats? |
++-----------+-----+---------+----------+-------------+-------+
+| Transduce |  x  |    x    |    x     |      x      |   ?   |
++-----------+-----+---------+----------+-------------+-------+
+| Map       |                                                |
+| Filter    |                                                |
+| MapCat    |                  FREEBIES                      |
+| Take      |                                                |
+| Partition |                                                |
++-----------+------------------------------------------------+
+</code></pre>
+      </section>
+      <section>
+        <h1>FKit (by Josh Bassett)</h1>
+        <h1><img width="50%" height="50%" src="images/fkit_white.png"></h1>
+        <h2>A functional programming toolkit</h2>
+      </section>
+      <section>
+        <h1>FKit Compose</h1>
+        <pre><code class="language-javascript">F.compose(
+  F.filter(isEven),
+  F.map(increment)
+)([0, 1, 2, 3, 4]);
+</code></pre>
+      </section>
+      <section>
+        <h1>Performance</h1>
+        <h1><img width="50%" height="50%" src="images/transducers-bench.png"></h1>
+      </section>
+      <section>
+        <h1>Performance</h1>
+        <h1><img width="50%" height="50%" src="images/transducers-libs-bench.png"></h1>
+      </section>
+      <section>
+        <h1>In the wild</h1>
+        <ul>
+          <li>transducers.js by @jlongster</li>
+          <li>transducers-js by @cognitect</li>
+          <li>transduce by @simpletic</li>
+        </ul>
+      </section>
+      <section>
+        <h1>underscore-transducer</h1>
+        <h2>Featured lazy generators &amp; callbacks</h2>
+      </section>
+      <section>
+        <h1>Demo</h1>
+        <div id="demo3" class="demo">Mouse and Click!</div>
+      </section>
+      <section>
+        <pre><code class="language-javascript">var click = _r().where({type:'click'})
+                .each(updateCount).asCallback();
+                
+var coords = _r().where({type:'mousemove'})
+                 .map(clientCoords)
+                 .each(updateText).asCallback();
+                 
+var events = _r().each(coords)
+                 .each(click)
+                 .asCallback();
+                 
+$elm.on('mousemove click', events);
+</code></pre>
+      </section>
+      <section>
+        <h1>References</h1>
+        <ul>
+          <li><a href="http://clojure.com/blog/2012/05/15/anatomy-of-reducer.html">Anatomy of reducer</a></li>
+          <li><a href="http://jlongster.com/Transducers.js--A-JavaScript-Library-for-Transformation-of-Data">Transducer library by jlongster</a></li>
+          <li><a href="http://jlongster.com/Transducers.js-Round-2-with-Benchmarks">Transducer.js benchmarks</a></li>
+        </ul>
+      </section>
+    </article>
+    <script src="build/build.js"></script>
+  </body>
+</html>
