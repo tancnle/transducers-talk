@@ -1,0 +1,217 @@
+Transducer
+---
+Transducers follow on from Reducers first announced by Rich in May 2012.
+
+
+Transducer - definition
+---
+The word 'transducer' itself can be split into two parts that reflect this definition:
+'transform' — to produce some value from another — and
+'reducer' — to combine the values of a data structure to produce a new one.
+
+Transducer
+---
+Reduce function is the base transformation and other are expressed in terms
+of it (map, filter, etc.)
+
+# Step 1
+var input = [2, 3, 4];
+
+input.reduce(function(result, x) {
+    return result + x;
+}, 1);
+
+# Step 2
+var sum = function (result, x) {
+    return result + x;
+};
+input.reduce(sum, 1);
+
+# Step 3
+var transformer = function(reducingFunction){
+  return {
+    init: function(){
+      return 1;
+    },
+
+    step: reducingFunction,
+
+    result: function(result){
+      return result;
+    }
+  }
+}
+
+# Step 4
+var input = [2,3,4];
+
+var xf = transformer(sum);
+var output = input.reduce(xf.step, xf.init());
+// output = 10 (=1+2+3+4)
+
+# Step 5 - decouple from input
+function reduce(xf, init, input){
+  var result = input.reduce(xf.step, init);
+  return xf.result(result);
+}
+
+var input = [2,3,4];
+var xf = transformer(sum);
+var output = reduce(xf, xf.init(), input);
+
+# Step 6 - pushing the transformer creation down to reduce function
+function reduce(xf, init, input){
+  if(typeof xf === 'function'){
+    xf = wrap(xf);
+  }
+  var result = input.reduce(xf.step, init);
+  return xf.result(result);
+}
+
+function wrap(xf){
+  return {
+    init: function(){
+      throw new Error('init not supported');
+    },
+
+    step: xf,
+
+    result: function(result){
+      return result;
+    }
+  }
+}
+
+var output = reduce(sum, 1, input);
+
+# Step 7 - go wild with all 3 arities
+function append(result, item){
+  result.push(item);
+  return result;
+}
+
+var input = [2,3,4];
+var output = reduce(append, [], input);
+// output = [2, 3, 4]
+
+
+Contructing tranducer
+---
+
+Transducer implementations
+---
+IN: 3-arity function --> OUT: 3-arity-function
+0: wrapped fn
+1: completion if none flow through
+2: reducing step
+
+
+Transducer implemetations
+---
+function map (func)
+function filter (predicate)
+funtion take (number)
+function partitionBy (func)
+
+all return transducers
+
+Map
+--
+var map = function(f){
+  return function(xf){
+    return {
+      init: function(){
+        return xf.init();
+      },
+      step: function(result, item){
+        var mapped = f(item);
+        return xf.step(result, mapped);
+      },
+      result: function(result){
+        return xf.result(result);
+      }
+    }
+  }
+}
+
+
+
+Characteristics
+------------------------------
+
+Fully decoupled
+---
+Separate transformation with data structure
+
+
+Composable
+---
+There are two ways to combine these transformations:
+- Perform the first transformation on the whole collection before moving on to the second.
+- Perform all transformations on the first element of the collection before moving on to the second.
+
+Issues
+---
+- Parallelisation
+- Lazy
+- Tightly coupled to input and output data structure
+
+Fork-join model
+---
+http://en.wikipedia.org/wiki/Fork%E2%80%93join_model
+Some illustrations for the map-reduce examples
+
+Input agnostic
+---
+Example transducers with various inputs
+- Enumerables/iterables
+- Observables
+- Streams
+- Channels (still experimenting)
+Promise interface for channels to avoid block operation due to buffer overflowing
+
+Transduce Stream
+---
+Transform Node.js streams with transducers
+**Code sample**
+
+
+Immutable.js
+---
+Works seemlessly with Immutable.js data structures
+
+What is the deal?
+---
+
+
+Underscore Transducer
+---
+Using similar API like Underscore + Lazy Generators + Callback processes
+**Code sample**
+
+
+Performance
+---
+
+Others
+---
+Underarm extension - lazy and async/reactive step functions
+
+
+Transducers in real world
+---
+Example by Rick Hickey - Baggage chain instructionsi
+Instruction
+
+References
+---
+Libraries
+transducer.js (https://github.com/jlongster/transducers.js)
+transducer-js (https://github.com/cognitect-labs/transducers-js)
+transduce (https://github.com/transduce/transduce)
+
+Talks/Blogs
+"Transducer" talk from Rich Hickey (https://www.youtube.com/watch?v=6mTbuzafcII)
+"Inside Transducers" talk (https://www.youtube.com/watch?v=4KqUvG8HPYo)
+http://jlongster.com/Transducers.js-Round-2-with-Benchmarks
+http://jlongster.com/Transducers.js--A-JavaScript-Library-for-Transformation-of-Data
