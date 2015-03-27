@@ -24,21 +24,21 @@ bespoke.from('article', [
 // debowerify: https://github.com/eugeneware/debowerify
 require('prism');
 require('zepto');
-require('underscore-transducer');
+require('underarm');
 
-var $demo = $('#demo3'),
-    clickCount = 0,
-    coords = _r().where({type:'mousemove'})
+var $demo = $('#demo3');
+var clickCount = 0;
+var coords = _r().where({type:'mousemove'})
                  .map(function(e){return {x: e.clientX, y: e.clientY}})
                  .map(function(p){return '('+p.x+', '+p.y+')'})
                  .each(updateText)
-                 .asCallback(),
+                 .asCallback();
 
-click = _r().where({type:'click'})
+var click = _r().where({type:'click'})
             .each(updateCount)
-            .asCallback(),
+            .asCallback();
 
-events = _r().each(coords)
+var events = _r().each(coords)
              .each(click)
              .asCallback();
 

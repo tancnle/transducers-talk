@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "dependencies": {
     "prism": "gh-pages",
-    "underscore-transducer": "~0.4.3",
-    "zepto": "~1.1.6"
+    "underarm": "^0.6.1",
+    "zepto": "^1.1.6"
   }
 }

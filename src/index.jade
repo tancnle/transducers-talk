@@ -22,6 +22,10 @@ html
         h1 A transducer is a device that converts a signal in one form of energy to another form of energy.
 
       section
+        h1
+          img(width='50%' height='50%' src='images/bone-conduction-transducer.gif')
+
+      section
         h1 The end.
 
       section
@@ -59,6 +63,10 @@ html
               return input + 1;
             }) // -> [2, 3, 4, 5]
 
+      section
+        h1 Map -> Reduce
+        pre
+          code.language-javascript.
             [1, 2, 3, 4].reduce(function (result, input) {
               return concat(result, input + 1);
             }, []) // -> [2, 3, 4, 5]
@@ -79,7 +87,7 @@ html
             // -> [2, 3, 4, 5]
 
       section
-        h1
+        h1 Filter -> Reduce
         pre
           code.language-javascript.
             function filter(predicate, collection) {
@@ -100,6 +108,23 @@ html
 
             filter(greaterThanTwo, [1 ,2 ,3, 4]);
             // -> [3, 4]
+
+      section
+        h1 Where is my reducing function
+        pre
+          code.language-javascript.
+            function (result, input) {
+              return ( predicate(input) ?
+                       concat(result, input) :
+                       result );
+            }
+
+      section
+        h1.bullet Reducing functions
+        ul
+          pre
+            code.language-javascript.
+              (something, input) -> something
 
       section
         h1 Composable
@@ -123,15 +148,9 @@ html
               map.bind(null, inc)
             );
 
-            incrementAndFilter([1, 2, 3, 4]);
-            // -> [3, 4]
+            compose(f, g)(a) === f(g(a));
 
-      section
-        h1.bullet Reducing functions
-        ul
-          pre
-            code.language-javascript.
-              (something, input) -> something
+            incrementAndFilter([1, 2, 3, 4]);
 
       section
         h1. Map
@@ -162,10 +181,13 @@ html
       section
         h1 Can we do better?
         h2 Step function (concat) still bound to array
+
+
+      section
         pre
           code.language-javascript.
             function mapper (transform) {
-              return function (combine) {
+              return function (combine) { // <- how to reduce
                 return function (result, input) {
                   return combine(result, transform(input));
                 };
@@ -187,17 +209,6 @@ html
             );
 
       section
-        h2 I can see some composing opportunity
-        pre
-          code.language-javascript.
-            [1, 2, 3, 4].reduce(
-              filterer(greaterThanTwo)(
-                mapper(multiplyByTwo)(concat)
-              ),
-              []
-            );
-
-      section
         h2 Lets compose these... transducers
         pre
           code.language-javascript.
@@ -205,7 +216,7 @@ html
 
             [1, 2, 3, 4].reduce(
               compose(
-                filterer(greaterThanTwo),
+                mapper(inc),
                 mapper(multiplyByTwo)
               )(concat),
               []
@@ -231,14 +242,14 @@ html
 
       section
         h1
-          img(width='50%' height='50%' src='images/dance.gif')
+          img(width='60%' height='60%' src='images/dance.gif')
 
       section
         h1 Input agnostic
         ul
           li Enumerables/iterables
           li Observables
-          li  Streams
+          li Streams
           li Channels (still experimenting)
 
       section
@@ -257,13 +268,13 @@ html
             | Partition |                                                |
             +-----------+------------------------------------------------+
 
-      section
+      section(data-bespoke-hash='fkit-intro')
         h1 FKit (by Josh Bassett)
         h1
           img(width='50%' height='50%' src='images/fkit_white.png')
         h2. A functional programming toolkit
 
-      section
+      section(data-bespoke-hash='fkit-code')
         h1 FKit Compose
         pre
           code.language-javascript.
@@ -275,12 +286,12 @@ html
       section
         h1 Performance
         h1
-          img(width='50%' height='50%' src='images/transducers-bench.png')
+          img(width='50%' height='50%' src='images/transducers-libs-bench.png')
 
       section
         h1 Performance
         h1
-          img(width='50%' height='50%' src='images/transducers-libs-bench.png')
+          img(width='50%' height='50%' src='images/transducers-bench.png')
 
       section
         h1 In the wild
@@ -289,15 +300,12 @@ html
           li transducers-js by @cognitect
           li transduce by @simpletic
 
-      section
-        h1 underscore-transducer
-        h2 Featured lazy generators &amp; callbacks
+      section(data-bespoke-hash='underarm')
+        h1 underarm
+        h2 Transducers for JavaScript
+        h2 with Underscore API and Async extensions
 
-      section
-        h1 Demo
-        #demo3.demo Mouse and Click!
-
-      section
+      section(data-bespoke-hash='underarm-src')
         pre
           code.language-javascript.
             var click = _r().where({type:'click'})
@@ -312,6 +320,14 @@ html
                              .asCallback();
 
             $elm.on('mousemove click', events);
+
+      section
+        h1 Demo
+        #demo3.demo Mouse and Click!
+
+      section
+        h1 Coding
+        h2 May the odds be with me
 
       section
         h1 References
