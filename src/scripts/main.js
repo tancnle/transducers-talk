@@ -13,7 +13,7 @@ bespoke.from('article', [
   voltaire(),
   keys(),
   touch(),
-  bullets('li, .bullet'),
+  bullets('.bullet'),
   scale(),
   hash(),
   progress()
