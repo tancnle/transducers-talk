@@ -417,6 +417,10 @@ bower-registry-client@~0.1.4:
     request-replay "~0.2.0"
     rimraf "~2.2.0"
 
+bower@^1.8.0:
+  version "1.8.0"
+  resolved "https://registry.yarnpkg.com/bower/-/bower-1.8.0.tgz#55dbebef0ad9155382d9e9d3e497c1372345b44a"
+
 bower@~1.2.6:
   version "1.2.8"
   resolved "https://registry.yarnpkg.com/bower/-/bower-1.2.8.tgz#f63c0804a267d5ffaf2fd3fd488367e73dce202f"
@@ -1788,7 +1792,7 @@ gulp-util@^2.2.17, gulp-util@~2.2, gulp-util@~2.2.12, gulp-util@~2.2.14, gulp-ut
     through2 "^0.5.0"
     vinyl "^0.2.1"
 
-gulp@^3.8.1:
+gulp@^3.9.1:
   version "3.9.1"
   resolved "https://registry.yarnpkg.com/gulp/-/gulp-3.9.1.tgz#571ce45928dd40af6514fc4011866016c13845b4"
   dependencies:
