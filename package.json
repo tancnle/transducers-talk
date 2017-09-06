@@ -2,10 +2,15 @@
   "name": "presentation-transducers-js",
   "version": "0.0.0",
   "dependencies": {
+    "benchmark": "^2.1.4",
+    "fkit": "^0.16.2",
     "optimist": "^0.6.1",
     "prompt": "^0.2.14",
-    "transduce-stream": "transduce/transduce-stream",
-    "underarm": "^0.6.1"
+    "transduce": "^0.10.2",
+    "transduce-stream": "^0.5.0",
+    "transducers-js": "^0.4.174",
+    "transducers.js": "^0.3.2",
+    "underarm": "^0.8.0"
   },
   "devDependencies": {
     "bespoke": "^1.0.0",
