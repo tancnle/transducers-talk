@@ -15,13 +15,11 @@
     "fkit": "^0.16.2",
     "optimist": "^0.6.1",
     "prismjs": "^1.6.0",
-    "prompt": "^0.2.14",
     "transduce": "^0.10.2",
     "transduce-stream": "^0.5.0",
     "transducers-js": "^0.4.174",
     "transducers.js": "^0.3.2",
-    "underarm": "^0.8.0",
-    "zepto": "^1.2.0"
+    "underarm": "^0.8.0"
   },
   "devDependencies": {
     "bespoke": "^1.0.0",
@@ -33,7 +31,7 @@
     "bespoke-theme-voltaire": "^1.0.1",
     "bespoke-touch": "^1.0.0",
     "browserify": "^14.4.0",
-    "del": "^1.1.1",
+    "del": "^3.0.0",
     "gh-pages": "^0.2.0",
     "gulp": "^3.9.1",
     "gulp-autoprefixer": "0.0.7",
