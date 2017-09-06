@@ -12,5 +12,5 @@ Then, install dependencies and run the preview server:
 
 ```bash
 $ yarn install && bower install
-$ gulp serve
+$ yarn serve
 ```
