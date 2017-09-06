@@ -19,6 +19,9 @@
         <h1>A transducer is a device that converts a signal in one form of energy to another form of energy.</h1>
       </section>
       <section>
+        <h1><img width="50%" height="50%" src="images/bone-conduction-transducer.gif"></h1>
+      </section>
+      <section>
         <h1>The end.</h1>
       </section>
       <section>
@@ -44,8 +47,11 @@
         <pre><code class="language-javascript">[1, 2, 3, 4].map(function (input) {
   return input + 1;
 }) // -> [2, 3, 4, 5]
-
-[1, 2, 3, 4].reduce(function (result, input) {
+</code></pre>
+      </section>
+      <section>
+        <h1>Map -> Reduce</h1>
+        <pre><code class="language-javascript">[1, 2, 3, 4].reduce(function (result, input) {
   return concat(result, input + 1);
 }, []) // -> [2, 3, 4, 5]
 
@@ -65,7 +71,7 @@ map(function(x) { return x + 1; }, [1, 2, 3, 4]);
 </code></pre>
       </section>
       <section>
-        <h1></h1>
+        <h1>Filter -> Reduce</h1>
         <pre><code class="language-javascript">function filter(predicate, collection) {
   return collection.reduce(function (result, input) {
     return ( predicate(input) ?
@@ -86,6 +92,22 @@ filter(greaterThanTwo, [1 ,2 ,3, 4]);
 </code></pre>
       </section>
       <section>
+        <h1>Where is my reducing function</h1>
+        <pre><code class="language-javascript">function (result, input) {
+  return ( predicate(input) ?
+           concat(result, input) :
+           result );
+}
+</code></pre>
+      </section>
+      <section>
+        <h1 class="bullet">Reducing functions</h1>
+        <ul>
+          <pre><code class="language-javascript">(something, input) -> something
+</code></pre>
+        </ul>
+      </section>
+      <section>
         <h1>Composable</h1>
       </section>
       <section>
@@ -103,16 +125,10 @@ filter(greaterThanTwo, [1 ,2 ,3, 4]);
   map.bind(null, inc)
 );
 
+compose(f, g)(a) === f(g(a));
+
 incrementAndFilter([1, 2, 3, 4]);
-// -> [3, 4]
 </code></pre>
-      </section>
-      <section>
-        <h1 class="bullet">Reducing functions</h1>
-        <ul>
-          <pre><code class="language-javascript">(something, input) -> something
-</code></pre>
-        </ul>
       </section>
       <section>
         <h1>Map</h1>
@@ -128,6 +144,7 @@ incrementAndFilter([1, 2, 3, 4]);
 </code></pre>
       </section>
       <section>
+        <h1>Extracting reducing function</h1>
         <pre><code class="language-javascript">function mapper (transform) {
   return function (result, input) {
     return concat(result, transform(input));
@@ -141,8 +158,10 @@ incrementAndFilter([1, 2, 3, 4]);
       <section>
         <h1>Can we do better?</h1>
         <h2>Step function (concat) still bound to array</h2>
+      </section>
+      <section>
         <pre><code class="language-javascript">function mapper (transform) {
-  return function (combine) {
+  return function (combine) { // <- how to reduce
     return function (result, input) {
       return combine(result, transform(input));
     };
@@ -164,22 +183,12 @@ incrementAndFilter([1, 2, 3, 4]);
 </code></pre>
       </section>
       <section>
-        <h2>I can see some composing opportunity</h2>
-        <pre><code class="language-javascript">[1, 2, 3, 4].reduce(
-  filterer(greaterThanTwo)(
-    mapper(multiplyByTwo)(concat)
-  ),
-  []
-);
-</code></pre>
-      </section>
-      <section>
         <h2>Lets compose these... transducers</h2>
         <pre><code class="language-javascript">compose(x, y, z)(val) -> x(y(z(val)))
 
 [1, 2, 3, 4].reduce(
   compose(
-    filterer(greaterThanTwo),
+    mapper(inc),
     mapper(multiplyByTwo)
   )(concat),
   []
@@ -204,14 +213,14 @@ transduce(
 </code></pre>
       </section>
       <section>
-        <h1><img width="50%" height="50%" src="images/dance.gif"></h1>
+        <h1><img width="60%" height="60%" src="images/dance.gif"></h1>
       </section>
       <section>
         <h1>Input agnostic</h1>
         <ul>
           <li>Enumerables/iterables</li>
           <li>Observables</li>
-          <li> Streams</li>
+          <li>Streams</li>
           <li>Channels (still experimenting)</li>
         </ul>
       </section>
@@ -230,12 +239,12 @@ transduce(
 +-----------+------------------------------------------------+
 </code></pre>
       </section>
-      <section>
+      <section data-bespoke-hash="fkit-intro">
         <h1>FKit (by Josh Bassett)</h1>
         <h1><img width="50%" height="50%" src="images/fkit_white.png"></h1>
         <h2>A functional programming toolkit</h2>
       </section>
-      <section>
+      <section data-bespoke-hash="fkit-code">
         <h1>FKit Compose</h1>
         <pre><code class="language-javascript">F.compose(
   F.filter(isEven),
@@ -245,11 +254,11 @@ transduce(
       </section>
       <section>
         <h1>Performance</h1>
-        <h1><img width="50%" height="50%" src="images/transducers-bench.png"></h1>
+        <h1><img width="50%" height="50%" src="images/transducers-libs-bench.png"></h1>
       </section>
       <section>
         <h1>Performance</h1>
-        <h1><img width="50%" height="50%" src="images/transducers-libs-bench.png"></h1>
+        <h1><img width="50%" height="50%" src="images/transducers-bench.png"></h1>
       </section>
       <section>
         <h1>In the wild</h1>
@@ -259,15 +268,12 @@ transduce(
           <li>transduce by @simpletic</li>
         </ul>
       </section>
-      <section>
-        <h1>underscore-transducer</h1>
-        <h2>Featured lazy generators &amp; callbacks</h2>
+      <section data-bespoke-hash="underarm">
+        <h1>underarm</h1>
+        <h2 class="bullet">Transducers for JavaScript</h2>
+        <h2 class="bullet">with Underscore API and Async extensions</h2>
       </section>
-      <section>
-        <h1>Demo</h1>
-        <div id="demo3" class="demo">Mouse and Click!</div>
-      </section>
-      <section>
+      <section data-bespoke-hash="underarm-src">
         <pre><code class="language-javascript">var click = _r().where({type:'click'})
                 .each(updateCount).asCallback();
                 
@@ -283,11 +289,26 @@ $elm.on('mousemove click', events);
 </code></pre>
       </section>
       <section>
+        <h1>Demo</h1>
+        <div id="demo3" class="demo">Mouse and Click!</div>
+      </section>
+      <section>
+        <h1>Coding</h1>
+        <h2>May the odds be with me</h2>
+      </section>
+      <section>
         <h1>References</h1>
         <ul>
           <li><a href="http://clojure.com/blog/2012/05/15/anatomy-of-reducer.html">Anatomy of reducer</a></li>
           <li><a href="http://jlongster.com/Transducers.js--A-JavaScript-Library-for-Transformation-of-Data">Transducer library by jlongster</a></li>
           <li><a href="http://jlongster.com/Transducers.js-Round-2-with-Benchmarks">Transducer.js benchmarks</a></li>
+        </ul>
+      </section>
+      <section>
+        <h1>Questions</h1>
+        <ul>
+          <li>Twitter: @tancnle</li>
+          <li>Github: tancnle</li>
         </ul>
       </section>
     </article>
