@@ -19,18 +19,14 @@ bespoke.from('article', [
   progress()
 ]);
 
-// Prism syntax highlighting
-// This is actually loaded from "bower_components" thanks to
-// debowerify: https://github.com/eugeneware/debowerify
-require('prism');
-require('zepto');
 require('underarm');
+require('prismjs');
 
-var $demo = $('#demo3');
+var demoEl = document.getElementById('demo3');
 var clickCount = 0;
 var coords = _r().where({type:'mousemove'})
-                 .map(function(e){return {x: e.clientX, y: e.clientY}})
-                 .map(function(p){return '('+p.x+', '+p.y+')'})
+                 .map(function(e){ return { x: e.clientX, y: e.clientY }; })
+                 .map(function(p){ return '('+p.x+', '+p.y+')'; })
                  .each(updateText)
                  .asCallback();
 
@@ -42,12 +38,13 @@ var events = _r().each(coords)
              .each(click)
              .asCallback();
 
-$demo.on('mousemove click', events);
+demoEl.addEventListener('mousemove', events);
+demoEl.addEventListener('click', events);
 
 function updateText(p){
-  $demo.html(p);
+  demoEl.innerHTML = p;
 }
 
 function updateCount(){
-  $demo.html('Click '+(clickCount++));
+  demoEl.innerHTML = 'Click ' + (clickCount++);
 }
