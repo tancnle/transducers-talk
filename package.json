@@ -32,7 +32,7 @@
     "bespoke-touch": "^1.0.0",
     "browserify": "^14.4.0",
     "del": "^3.0.0",
-    "gh-pages": "^0.2.0",
+    "gh-pages": "^1.0.0",
     "gulp": "^3.9.1",
     "gulp-autoprefixer": "0.0.7",
     "gulp-browserify": "^0.5.1",
