@@ -200,7 +200,7 @@ Underarm extension - lazy and async/reactive step functions
 
 Transducers in real world
 ---
-Example by Rick Hickey - Baggage chain instructionsi
+Example by Rick Hickey - Baggage chain instructions
 Instruction
 
 References
