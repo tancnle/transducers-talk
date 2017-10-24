@@ -1,20 +1,22 @@
-var fs = require('fs');
-var _r = require('underarm');
-var stream = require('transduce-stream');
+const fs = require('fs');
+const _r = require('underarm');
+const stream = require('transduce-stream');
 
-var argv = require('optimist')
-    .usage('Usage: $0 -length [num] -sub [string] -method [file|stdin]')
-    // .demand(['length', 'sub', 'method'])
+const argv = require('optimist')
+    .usage('Usage: $0 --length [num] --limit [num] --method [file|stdin]')
+    .demand(['length', 'limit'])
     .argv;
 
-var transducer = _r().lines()
-                     .take(10)
-                     .compose();
+const transducer = _r().lines()
+                   .filter(word => word.length === argv.length)
+                   .take(argv.limit)
+                   .map(word => word + "\n")
+                   .compose();
 
-if (argv.method === 'file') {
-  var readStream = fs.createReadStream('/usr/share/dict/words');
-  readStream.pipe(stream(transducer)).pipe(process.stdout);
-} else {
+if (argv.method === 'stdin') {
   process.stdin.resume();
   process.stdin.pipe(stream(transducer)).pipe(process.stdout);
+} else {
+  const readStream = fs.createReadStream('/usr/share/dict/words');
+  readStream.pipe(stream(transducer)).pipe(process.stdout);
 }
