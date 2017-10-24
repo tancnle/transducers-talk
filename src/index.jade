@@ -308,18 +308,18 @@ html
       section(data-bespoke-hash='underarm-src')
         pre
           code.language-javascript.
-            var click = _r().where({type:'click'})
+            const click = _r().where({type:'click'})
                             .each(updateCount).asCallback();
 
-            var coords = _r().where({type:'mousemove'})
+            const coords = _r().where({type:'mousemove'})
                              .map(clientCoords)
                              .each(updateText).asCallback();
 
-            var events = _r().each(coords)
+            const events = _r().each(coords)
                              .each(click)
                              .asCallback();
 
-            $elm.on('mousemove click', events);
+            $el.on('mousemove click', events);
 
       section
         h1 Demo
