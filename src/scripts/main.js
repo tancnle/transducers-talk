@@ -25,8 +25,8 @@ require('prismjs');
 var demoEl = document.getElementById('demo3');
 var clickCount = 0;
 var coords = _r().where({type:'mousemove'})
-                 .map(function(e){ return { x: e.clientX, y: e.clientY }; })
-                 .map(function(p){ return '('+p.x+', '+p.y+')'; })
+                 .map(function(e) { return { x: e.clientX, y: e.clientY }; })
+                 .map(function(p) { return '('+p.x+', '+p.y+')'; })
                  .each(updateText)
                  .asCallback();
 
