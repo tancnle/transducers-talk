@@ -117,23 +117,22 @@ all return transducers
 
 Map
 --
-var map = function(f){
-  return function(xf){
+var map = function(f) {
+  return function(xf) {
     return {
-      init: function(){
+      init: function() {
         return xf.init();
       },
-      step: function(result, item){
+      step: function(result, item) {
         var mapped = f(item);
         return xf.step(result, mapped);
       },
-      result: function(result){
+      result: function(result) {
         return xf.result(result);
       }
     }
   }
 }
-
 
 
 Characteristics
@@ -150,16 +149,19 @@ There are two ways to combine these transformations:
 - Perform the first transformation on the whole collection before moving on to the second.
 - Perform all transformations on the first element of the collection before moving on to the second.
 
+
 Issues
 ---
 - Parallelisation
 - Lazy
 - Tightly coupled to input and output data structure
 
+
 Fork-join model
 ---
 http://en.wikipedia.org/wiki/Fork%E2%80%93join_model
 Some illustrations for the map-reduce examples
+
 
 Input agnostic
 ---
@@ -170,15 +172,17 @@ Example transducers with various inputs
 - Channels (still experimenting)
 Promise interface for channels to avoid block operation due to buffer overflowing
 
+
 Transduce Stream
 ---
-Transform Node.js streams with transducers
+Transform Node.js streams with transducer
 **Code sample**
 
 
 Immutable.js
 ---
 Works seemlessly with Immutable.js data structures
+
 
 What is the deal?
 ---
