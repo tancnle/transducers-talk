@@ -29,9 +29,12 @@ suite
     f.compose(f.filter(isEven), f.map(increment))(numbers);
   })
   .add("lodash", () => {
-    _.chain(numbers).filter(isEven).map(increment).value();
+    _.chain(numbers)
+      .filter(isEven)
+      .map(increment)
+      .value();
   })
- .add("native", () => {
+  .add("native", () => {
     numbers.filter(isEven).map(increment);
   })
   .on("cycle", event => {
