@@ -94,9 +94,9 @@ filter(greaterThanTwo, [1 ,2 ,3, 4]);
       <section>
         <h1>Where is my reducing function</h1>
         <pre><code class="language-javascript">function (result, input) {
-  return ( predicate(input) ?
-           concat(result, input) :
-           result );
+  return ( predicate(input)
+             ? concat(result, input)
+             : result );
 }
 </code></pre>
       </section>
@@ -200,8 +200,11 @@ incrementAndFilter([1, 2, 3, 4]);
         <pre><code class="language-javascript">function transduce(xform, f, init, coll) {
   return coll.reduce(xform(f), init);
 }
-
-transduce(
+</code></pre>
+      </section>
+      <section>
+        <h2>Functional touch</h2>
+        <pre><code class="language-javascript">transduce(
   compose(
     filterer(greaterThanTwo),
     mapper(multiplyByTwo)
@@ -233,16 +236,15 @@ transduce(
 +-----------+-----+---------+----------+-------------+-------+
 | Map       |                                                |
 | Filter    |                                                |
-| MapCat    |                  FREEBIES                      |
+| Partition |                  FREEBIES                      |
 | Take      |                                                |
-| Partition |                                                |
 +-----------+------------------------------------------------+
 </code></pre>
       </section>
       <section data-bespoke-hash="fkit-intro">
         <h1>FKit (by Josh Bassett)</h1>
         <h1><img width="50%" height="50%" src="images/fkit_white.png"></h1>
-        <h2>A functional programming toolkit</h2>
+        <h2></h2>
       </section>
       <section data-bespoke-hash="fkit-code">
         <h1>FKit Compose</h1>
@@ -254,11 +256,15 @@ transduce(
       </section>
       <section>
         <h1>Performance</h1>
-        <h1><img width="50%" height="50%" src="images/transducers-libs-bench.png"></h1>
-      </section>
-      <section>
-        <h1>Performance</h1>
-        <h1><img width="50%" height="50%" src="images/transducers-bench.png"></h1>
+        <pre><code class="language-bash">transducers-js x 841,472 ops/sec ±1.60% (87 runs sampled)
+transducers.js x 2,064,293 ops/sec ±2.76% (84 runs sampled)
+transduce x 941,109 ops/sec ±4.27% (84 runs sampled)
+underarm x 812,409 ops/sec ±1.68% (80 runs sampled)
+fkit x 138,902 ops/sec ±2.14% (83 runs sampled)
+lodash x 95,606 ops/sec ±4.36% (69 runs sampled)
+
+Fastest is transducers.js
+</code></pre>
       </section>
       <section>
         <h1>In the wild</h1>
@@ -274,18 +280,18 @@ transduce(
         <h2 class="bullet">with Underscore API and Async extensions</h2>
       </section>
       <section data-bespoke-hash="underarm-src">
-        <pre><code class="language-javascript">var click = _r().where({type:'click'})
+        <pre><code class="language-javascript">const click = _r().where({type:'click'})
                 .each(updateCount).asCallback();
-                
-var coords = _r().where({type:'mousemove'})
+
+const coords = _r().where({type:'mousemove'})
                  .map(clientCoords)
                  .each(updateText).asCallback();
-                 
-var events = _r().each(coords)
+
+const events = _r().each(coords)
                  .each(click)
                  .asCallback();
-                 
-$elm.on('mousemove click', events);
+
+$el.on('mousemove click', events);
 </code></pre>
       </section>
       <section>
