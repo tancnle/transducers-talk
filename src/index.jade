@@ -114,9 +114,9 @@ html
         pre
           code.language-javascript.
             function (result, input) {
-              return ( predicate(input) ?
-                       concat(result, input) :
-                       result );
+              return ( predicate(input)
+                         ? concat(result, input)
+                         : result );
             }
 
       section
@@ -230,6 +230,10 @@ html
               return coll.reduce(xform(f), init);
             }
 
+      section
+        h2 Functional touch
+        pre
+          code.language-javascript.
             transduce(
               compose(
                 filterer(greaterThanTwo),
@@ -263,9 +267,8 @@ html
             +-----------+-----+---------+----------+-------------+-------+
             | Map       |                                                |
             | Filter    |                                                |
-            | MapCat    |                  FREEBIES                      |
+            | Partition |                  FREEBIES                      |
             | Take      |                                                |
-            | Partition |                                                |
             +-----------+------------------------------------------------+
 
       section(data-bespoke-hash='fkit-intro')
