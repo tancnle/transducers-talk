@@ -288,13 +288,16 @@ html
 
       section
         h1 Performance
-        h1
-          img(width='50%' height='50%' src='images/transducers-libs-bench.png')
+        pre
+          code.language-bash.
+            transducers-js x 841,472 ops/sec ±1.60% (87 runs sampled)
+            transducers.js x 2,064,293 ops/sec ±2.76% (84 runs sampled)
+            transduce x 941,109 ops/sec ±4.27% (84 runs sampled)
+            underarm x 812,409 ops/sec ±1.68% (80 runs sampled)
+            fkit x 138,902 ops/sec ±2.14% (83 runs sampled)
+            lodash x 95,606 ops/sec ±4.36% (69 runs sampled)
 
-      section
-        h1 Performance
-        h1
-          img(width='50%' height='50%' src='images/transducers-bench.png')
+            Fastest is transducers.js
 
       section
         h1 In the wild
