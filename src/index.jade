@@ -59,7 +59,7 @@ html
         h1 Map
         pre
           code.language-javascript.
-            [1, 2, 3, 4].map(function (input) {
+            [1, 2, 3, 4].map(input => {
               return input + 1;
             }) // -> [2, 3, 4, 5]
 
@@ -67,7 +67,7 @@ html
         h1 Map -> Reduce
         pre
           code.language-javascript.
-            [1, 2, 3, 4].reduce(function (result, input) {
+            [1, 2, 3, 4].reduce((result, input) => {
               return concat(result, input + 1);
             }, []) // -> [2, 3, 4, 5]
 
@@ -77,13 +77,13 @@ html
         h1 Functional way
         pre
           code.language-javascript.
-            function map(transform, collection) {
-              return collection.reduce(function (result, input) {
+            map(transform, collection) {
+              return collection.reduce((result, input) => {
                 return concat(result, transform(input));
               }, []);
             }
 
-            map(function(x) { return x + 1; }, [1, 2, 3, 4]);
+            map(x => x + 1, [1, 2, 3, 4]);
             // -> [2, 3, 4, 5]
 
       section
@@ -92,9 +92,9 @@ html
           code.language-javascript.
             function filter(predicate, collection) {
               return collection.reduce(function (result, input) {
-                return ( predicate(input) ?
-                         concat(result, input) :
-                         result );
+                return ( predicate(input)
+                           ? concat(result, input)
+                           : result );
               }, [])
             }
 
