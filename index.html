@@ -44,14 +44,14 @@
       </section>
       <section>
         <h1>Map</h1>
-        <pre><code class="language-javascript">[1, 2, 3, 4].map(function (input) {
+        <pre><code class="language-javascript">[1, 2, 3, 4].map(input => {
   return input + 1;
 }) // -> [2, 3, 4, 5]
 </code></pre>
       </section>
       <section>
         <h1>Map -> Reduce</h1>
-        <pre><code class="language-javascript">[1, 2, 3, 4].reduce(function (result, input) {
+        <pre><code class="language-javascript">[1, 2, 3, 4].reduce((result, input) => {
   return concat(result, input + 1);
 }, []) // -> [2, 3, 4, 5]
 
@@ -60,13 +60,13 @@ function concat(a, b) { return a.concat([b]); }
       </section>
       <section>
         <h1>Functional way</h1>
-        <pre><code class="language-javascript">function map(transform, collection) {
-  return collection.reduce(function (result, input) {
+        <pre><code class="language-javascript">map(transform, collection) {
+  return collection.reduce((result, input) => {
     return concat(result, transform(input));
   }, []);
 }
 
-map(function(x) { return x + 1; }, [1, 2, 3, 4]);
+map(x => x + 1, [1, 2, 3, 4]);
 // -> [2, 3, 4, 5]
 </code></pre>
       </section>
@@ -74,9 +74,9 @@ map(function(x) { return x + 1; }, [1, 2, 3, 4]);
         <h1>Filter -> Reduce</h1>
         <pre><code class="language-javascript">function filter(predicate, collection) {
   return collection.reduce(function (result, input) {
-    return ( predicate(input) ?
-             concat(result, input) :
-             result );
+    return ( predicate(input)
+               ? concat(result, input)
+               : result );
   }, [])
 }
 </code></pre>
