@@ -3044,8 +3044,8 @@ pretty-hrtime@^1.0.0:
   resolved "https://registry.yarnpkg.com/pretty-hrtime/-/pretty-hrtime-1.0.3.tgz#b7e3ea42435a4c9b2759d99e0f201eb195802ee1"
 
 prismjs@^1.6.0:
-  version "1.8.3"
-  resolved "https://registry.yarnpkg.com/prismjs/-/prismjs-1.8.3.tgz#4a3d140be5f2614a8987ca2330733a40d8ad207b"
+  version "1.8.4"
+  resolved "https://registry.yarnpkg.com/prismjs/-/prismjs-1.8.4.tgz#573cc7a14c2c06566e1eca20d813f5ae55db80d2"
   optionalDependencies:
     clipboard "^1.5.5"
 
