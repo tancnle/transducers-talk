@@ -8,7 +8,7 @@ const f = require("fkit");
 const Benchmark = require("benchmark");
 const suite = new Benchmark.Suite();
 
-const numbers = [0, 1, 2, 3, 4];
+const numbers = [...Array(1000).keys()];
 const increment = n => n + 1;
 const isEven = n => n % 2 === 0;
 
@@ -30,6 +30,9 @@ suite
   })
   .add("lodash", () => {
     _.chain(numbers).filter(isEven).map(increment).value();
+  })
+ .add("native", () => {
+    numbers.filter(isEven).map(increment);
   })
   .on("cycle", event => {
     console.log(String(event.target));
