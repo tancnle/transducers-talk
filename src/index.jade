@@ -22,15 +22,13 @@ html
         h1 A transducer is a device that converts a signal in one form of energy to another form of energy.
 
       section
-        h1
-          img(width='50%' height='50%' src='images/bone-conduction-transducer.gif')
+        img(width='80%' height='80%' src='images/bone-conduction-transducer.gif')
 
       section
         h1 The end.
 
       section
-        h1
-          img(width='50%' height='50%' src='images/transducer-search.png')
+        img(width='80%' height='80%' src='images/transducer-search.png')
 
       section
         h1.bullet Transducers are composable way to build algorithmic transformations.
@@ -92,8 +90,8 @@ html
         h1 Functional way
         pre
           code.language-javascript.
-            map(transform, collection) {
-              return collection.reduce((result, input) => {
+            function map(transform, collection) {
+              return collection.reduce(function (result, input) {
                 return concat(result, transform(input));
               }, []);
             }
@@ -260,8 +258,7 @@ html
             );
 
       section
-        h1
-          img(width='60%' height='60%' src='images/dance.gif')
+        img(width='80%' height='80%' src='images/dance.gif')
 
       section
         h1 Input agnostic
@@ -281,16 +278,14 @@ html
             | Transduce |  x  |    x    |    x     |      x      |   ?   |
             +-----------+-----+---------+----------+-------------+-------+
             | Map       |                                                |
-            | Filter    |                                                |
-            | Partition |                  FREEBIES                      |
+            | Filter    |                 FREEBIES                       |
             | Take      |                                                |
             +-----------+------------------------------------------------+
 
       section(data-bespoke-hash='fkit-intro')
-        h1 FKit (by Josh Bassett)
         h1
           img(width='50%' height='50%' src='images/fkit_white.png')
-        h2. A functional programming toolkit
+        h1 A functional programming toolkit
 
       section(data-bespoke-hash='fkit-code')
         h1 FKit Compose
@@ -303,7 +298,6 @@ html
 
       section
         h1 Performance
-
         h1
           img(width='80%' height='80%' src='images/transducers-bench.png')
 
