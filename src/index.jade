@@ -56,6 +56,21 @@ html
            span.emphatic  reduce
 
       section
+        pre
+          code.language-clojure.
+            (def xf
+              (comp
+                (filter odd?)
+                (map inc)
+                (take 5)))
+
+            (def coll
+               (range 100))
+
+            (into [] xf coll)
+            ;; -> [2 4 6 8 10]
+
+      section
         h1 Map
         pre
           code.language-javascript.
